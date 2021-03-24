@@ -81,6 +81,7 @@
         if (product) {
             SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
             [[SKPaymentQueue defaultQueue] addPayment:payment];
+            result(nil);
         } else {
             NSDictionary *err = [NSDictionary dictionaryWithObjectsAndKeys:
                                  @"Invalid product ID.", @"debugMessage",
@@ -90,6 +91,7 @@
                                  ];
             NSString* result = [self convertDicToJsonString:err];
             [self.channel invokeMethod:@"purchase-error" arguments:result];
+            result(nil);
         }
     } else if ([@"requestProductWithOfferIOS" isEqualToString:call.method]) {
         NSString* sku = (NSString*)call.arguments[@"sku"];
